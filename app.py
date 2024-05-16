@@ -9,7 +9,7 @@ from twilio.rest import Client
 
 # Initialize Flask app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = 'secrect-key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///latestnews.db'
 
 # Retrieve Twilio credentials from environment variables
