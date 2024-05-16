@@ -15,10 +15,10 @@
                 <p>Grok Coders</p>
             </div>
             <ul class="nav-menu">
-                <li><a href="#" class="link">Login</a> </li>
-                <li><a href="#" class="link">Home</a> </li>
-                <li><a href="#" class="link">About</a> </li>
-                <li><a href="#" class="link">Contact Us</a> </li>
+                <li><a href="{{ url_for('login') }}" class="link">Login</a> </li>
+                <li><a href="{{ url_for('home') }}" class="link">Home</a> </li>
+                <li><a href="{{ url_for('about') }}" class="link">About</a> </li>
+                <li><a href="{{ url_for('contact') }}" class="link">Contact Us</a> </li>
                 <li><a href="#" class="link">Logout</a> </li>
             </ul>
         </nav>

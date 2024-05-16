@@ -168,7 +168,7 @@ def predict_api():
 
 @app.route('/login', methods=['GET'])
 def login():
-    return render_template('loginpage.html')
+    return render_template('login.html')
 
 @app.route('/contact', methods=['GET'])
 def contact():
