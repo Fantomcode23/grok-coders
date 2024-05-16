@@ -12,15 +12,12 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///latestnews.db'
 
-
+# Retrieve Twilio credentials from environment variables
 TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
 TWILIO_WHATSAPP_NUMBER = os.getenv('TWILIO_WHATSAPP_NUMBER')
 MY_WHATSAPP_NUMBER = os.getenv('MY_WHATSAPP_NUMBER')
 FRIEND_WHATSAPP_NUMBER = os.getenv('FRIEND_WHATSAPP_NUMBER')
-
-
-
 
 db = SQLAlchemy(app)
 
