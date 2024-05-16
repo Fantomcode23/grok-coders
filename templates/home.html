@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="static/homecss.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="nav">
+            <div class="nav-logo">
+                <p>Grok Coders</p>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="link">Login</a> </li>
+                <li><a href="#" class="link">Home</a> </li>
+                <li><a href="#" class="link">About</a> </li>
+                <li><a href="#" class="link">Contact Us</a> </li>
+                <li><a href="#" class="link">Logout</a> </li>
+            </ul>
+        </nav>
+    </header>
+
+<main>
+<!--    Explore Section-->
+    <section class="hero">
+        <div class="container">
+            <h1>Trending Tech Updates</h1>
+            <p>Upgrading matters in long Growth.</p>
+            <button id="expr" type="button">Explore</button>
+        </div>
+    </section>
+
+<!--    Connect Section-->
+    <section class="connect-section">
+        <div class="container-buttons">
+            <div class="whatsapp-button-container">
+                <a href="{{ url_for('connect_whatsapp') }}" class="whatsapp-button">
+                    <i class="fa fa-whatsapp"></i>
+                    Connect on WhatsApp
+                </a>
+            </div>
+            <div class="fetch-button-container">
+                <a href="{{ url_for('scrape') }}" class="fetch-button">
+                    Fetch Latest News
+                </a>
+            </div>
+        </div>
+
+        <a href="{{ url_for('delete_all') }}">
+            Delete
+        </a>
+
+    </section>
+
+<!--    Flash Message-->
+    <section class="flash-message-section">
+            <div>
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <ul>
+                    {% for message in messages %}
+                      <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                  {% endif %}
+                {% endwith %}
+            </div>
+        </section>
+
+</main>
+
+</body>
+</html>
