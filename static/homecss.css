@@ -16,12 +16,15 @@ body {
 }
 
 .nav {
+    top:0;
+    position: fixed;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
-    background-color: Black;
+    background: linear-gradient(rgba(39,39,39, 0.6), transparent);
     backdrop-filter: blur(5px);
+    width: 100%;
+    height: 80px;
 }
 
 .nav-logo {
@@ -56,8 +59,16 @@ body {
     color: #f44336;
 }
 
-.nav-button {
-    display: none;
+.nav-button .btn{
+    width: 130px;
+    height: 40px;
+    font-weight: 500px;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s ease;
+    position: relative;
 }
 
 .hero {
@@ -227,3 +238,88 @@ body {
 .flash-message-section li {
     margin-bottom: 1rem;
 }
+
+.icons{
+    background-color: black;
+    padding:200px;
+}
+
+
+.onelink {
+    position: center;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    margin-right: 105px;
+}
+
+.cnet {
+    margin-right: 90px;
+}
+
+.y {
+    margin-right: 105px;
+}
+
+.techCrunch {
+    margin-right: 105px;
+}
+
+.Foss {
+    margin-right: 105px;
+}
+
+.threesixty {
+    margin-top: 30px;
+}
+
+#partners {
+color: white;
+margin-left: 40px;
+text-align: center;
+font-size: 30px;
+padding-bottom: 40px
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 50px 0;
+}
+
+.f-contact {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 110px;
+}
+
+.f-contact div {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.f-contact div:last-child {
+    margin-right: 0;
+}
+
+.f-contact h1 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.f-contact p {
+    margin: 5px 0;
+}
+
+.fa {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #fff;
+}
+
+.Copyright p {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 68vh;
+    color: antiquewhite;
+}
+
