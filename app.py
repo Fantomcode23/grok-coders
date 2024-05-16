@@ -2,24 +2,28 @@ import os
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from bs4 import BeautifulSoup
+from sklearn.exceptions import InconsistentVersionWarning
 import requests
 import re
 from twilio.rest import Client
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import PassiveAggressiveClassifier
+import pickle
+import warnings
 
+# Load environment variables
+SECRET_KEY = os.getenv('SECRET_KEY', '8BYkEfBA6O6donzWlSihBXox7C0sKR6b')
+URL = "https://www.cnet.com/ai-atlas/"
 
 # Initialize Flask app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secrect-key'
+app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///latestnews.db'
 
-# Retrieve Twilio credentials from environment variables
-# Updated code with placeholder values
-TWILIO_ACCOUNT_SID = 'placeholder_value'
-TWILIO_AUTH_TOKEN = 'placeholder_value'
-TWILIO_WHATSAPP_NUMBER = os.getenv('TWILIO_WHATSAPP_NUMBER')
-MY_WHATSAPP_NUMBER = os.getenv('MY_WHATSAPP_NUMBER')
-FRIEND_WHATSAPP_NUMBER = os.getenv('FRIEND_WHATSAPP_NUMBER')
-
+# Initialize SQLAlchemy
 db = SQLAlchemy(app)
 
 class Techupdate(db.Model):
@@ -31,11 +35,58 @@ class Techupdate(db.Model):
 with app.app_context():
     db.create_all()
 
-URL = "https://www.cnet.com/ai-atlas/"
+# Twilio credentials
+TWILIO_ACCOUNT_SID = 'AC382d9d01fea5283396ade921d7221947'
+TWILIO_AUTH_TOKEN = '5b1fe2f96165b16a2b064bd679b04b7e'
+TWILIO_WHATSAPP_NUMBER = "whatsapp:+14155238886"
+MY_WHATSAPP_NUMBER = "whatsapp:+918618392082"
+FRIEND_WHATSAPP_NUMBER = "whatsapp:+917795870380"
+
+# Suppress InconsistentVersionWarning from scikit-learn
+warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
+
+# Load NLTK resources
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+# Load English stopwords and initialize lemmatizer
+stop_words = set(stopwords.words('english'))
+lemmatizer = WordNetLemmatizer()
+
+# Load TF-IDF vectorizer and PassiveAggressiveClassifier
+tfidf_vectorizer = TfidfVectorizer()
+model = PassiveAggressiveClassifier()
+
+# Load saved model and vectorizer
+with open('model2.pkl', 'rb') as f:
+    model = pickle.load(f)
+
+with open('tfidfvect2.pkl', 'rb') as f:
+    tfidf_vectorizer = pickle.load(f)
+
+# Define functions
+def preprocess_text(text):
+    # Lowercase
+    text = text.lower()
+    # Remove special characters and digits
+    text = re.sub(r'[^a-zA-Z\s]', '', text)
+    # Tokenize
+    tokens = nltk.word_tokenize(text)
+    # Remove stopwords and lemmatize
+    tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words]
+    # Join tokens back into a string
+    preprocessed_text = ' '.join(tokens)
+    return preprocessed_text
 
 def load_tracked_urls():
     tracked_urls = {item.link for item in Techupdate.query.all()}
     return tracked_urls
+
+def predict(text):
+    preprocessed_text = preprocess_text(text)
+    vectorized_text = tfidf_vectorizer.transform([preprocessed_text])
+    prediction = model.predict(vectorized_text)[0]
+    return 'REAL' if prediction == 0 else 'FAKE'
 
 def scrape_and_store():
     response = requests.get(URL)
@@ -104,9 +155,16 @@ def send_whatsapp_message(headlines, links):
         print("Error sending message:", e)
         return None
 
+# Define routes
 @app.route('/', methods=['GET'])
 def home():
     return render_template('home.html')
+
+@app.route('/predict/', methods=['GET', 'POST'])
+def predict_api():
+    text = request.args.get("text")
+    prediction = predict(text)
+    return jsonify(prediction=prediction)
 
 @app.route('/login', methods=['GET'])
 def login():
@@ -126,8 +184,13 @@ def about():
 
 @app.route('/scrape', methods=['GET'])
 def scrape():
-    result = scrape_and_store()
-    flash(result['message'])
+    result = scrape_and_store()  # Call the scraping function
+    if result['status'] == 'success':
+        flash(result['message'], 'success')
+    elif result['status'] == 'no_update':
+        flash(result['message'], 'info')
+    else:
+        flash(result['message'], 'error')
     return redirect(url_for('home'))
 
 @app.route('/delete_all', methods=['GET'])
@@ -143,7 +206,7 @@ def delete_all():
 
 @app.route('/connect_whatsapp', methods=['GET'])
 def connect_whatsapp():
-    updates = Techupdate.query.limit(4).all()
+    updates = Techupdate.query.limit(2).all()
     headlines = [update.headline for update in updates]
     links = [update.link for update in updates]
     if headlines and links:
@@ -155,3 +218,4 @@ def connect_whatsapp():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
