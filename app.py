@@ -6,22 +6,19 @@ import requests
 import re
 from twilio.rest import Client
 
-# Load environment variables
 
 # Initialize Flask app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '8BYkEfBA6O6donzWlSihBXox7C0sKR6b')
+app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///latestnews.db'
 
-# Load environment variables from .env file
 SECRET_KEY='8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 
-# Twilio credentials
-TWILIO_ACCOUNT_SID = 'AC382d9d01fea5283396ade921d7221947'
-TWILIO_AUTH_TOKEN = '4c83c41f61376065979af4c4610e8182'
-TWILIO_WHATSAPP_NUMBER = "whatsapp:+14155238886"
-MY_WHATSAPP_NUMBER = "whatsapp:+918618392082"
-FRIEND_WHATSAPP_NUMBER = "whatsapp:+917795870380"
+TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+TWILIO_WHATSAPP_NUMBER = os.getenv('TWILIO_WHATSAPP_NUMBER')
+MY_WHATSAPP_NUMBER = os.getenv('MY_WHATSAPP_NUMBER')
+FRIEND_WHATSAPP_NUMBER = os.getenv('FRIEND_WHATSAPP_NUMBER')
 
 
 
