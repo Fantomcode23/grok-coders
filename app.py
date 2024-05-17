@@ -42,14 +42,11 @@ TWILIO_WHATSAPP_NUMBER = "whatsapp:+14155238886"
 MY_WHATSAPP_NUMBER = "whatsapp:+918618392082"
 FRIEND_WHATSAPP_NUMBER = "whatsapp:+917795870380"
 
-# Suppress InconsistentVersionWarning from scikit-learn
 warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
 
-# Load NLTK resources
 nltk.download('stopwords')
 nltk.download('wordnet')
 
-# Load English stopwords and initialize lemmatizer
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
