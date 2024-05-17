@@ -160,6 +160,7 @@ def send_whatsapp_message(headlines, links):
 def home():
     return render_template('home.html')
 
+
 @app.route('/predict/', methods=['GET', 'POST'])
 def predict_api():
     text = request.args.get("text")
@@ -176,7 +177,9 @@ def contact():
 
 @app.route('/ad', methods=['GET'])
 def ad():
-    return render_template('ad.html')
+    news_updates = Techupdate.query.order_by(Techupdate.id.desc()).limit(5).all()
+    print(news_updates)
+    return render_template('ad.html', news_updates=news_updates)
 
 @app.route('/about', methods=['GET'])
 def about():
