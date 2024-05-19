@@ -36,11 +36,11 @@ with app.app_context():
     db.create_all()
 
 # Twilio credentials
-TWILIO_ACCOUNT_SID = 'AC382d9d01fea5283396ade921d7221947'
-TWILIO_AUTH_TOKEN = '5b1fe2f96165b16a2b064bd679b04b7e'
-TWILIO_WHATSAPP_NUMBER = "whatsapp:+14155238886"
-MY_WHATSAPP_NUMBER = "whatsapp:+918618392082"
-FRIEND_WHATSAPP_NUMBER = "whatsapp:+917795870380"
+TWILIO_ACCOUNT_SID = 'SID'
+TWILIO_AUTH_TOKEN = 'AUTH'
+TWILIO_WHATSAPP_NUMBER = "whatsapp"
+MY_WHATSAPP_NUMBER = "whatsapp"
+FRIEND_WHATSAPP_NUMBER = "whatsapp"
 
 warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
 
